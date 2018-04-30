@@ -10,7 +10,7 @@ The `bitcore-node.json` file describes which services will load for a node:
 ```json
 {
   "services": [
-    "bitcoind", "web"
+    "smartcashd", "web"
   ]
 }
 ```
@@ -44,12 +44,12 @@ var myNode = new bitcore.Node({
   network: 'regtest'
   services: [
     {
-      name: 'bitcoind',
+      name: 'smartcashd',
       module: Bitcoin,
       config: {
         spawn: {
           datadir: '/home/<username>/.bitcoin',
-          exec: '/home/<username>/bitcore-node/bin/bitcoind'
+          exec: '/home/<username>/bitcore-node/bin/smartcashd'
         }
       }
     },
@@ -67,7 +67,7 @@ var myNode = new bitcore.Node({
 Now that you've loaded your services you can access them via `myNode.services.<service-name>.<method-name>`. For example if you wanted to check the balance of an address, you could access the address service like so.
 
 ```js
-myNode.services.bitcoind.getAddressBalance('1HB5XMLmzFVj8ALj6mfBsbifRoD4miY36v', false, function(err, total) {
+myNode.services.smartcashd.getAddressBalance('1HB5XMLmzFVj8ALj6mfBsbifRoD4miY36v', false, function(err, total) {
   console.log(total.balance); //Satoshi amount of this address
 });
 ```

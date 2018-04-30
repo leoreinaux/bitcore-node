@@ -20,11 +20,11 @@ bus.close();
 ```javascript
 
 // subscribe to all transaction events
-bus.subscribe('bitcoind/rawtransaction');
+bus.subscribe('smartcashd/rawtransaction');
 
 // to subscribe to new block hashes
-bus.subscribe('bitcoind/hashblock');
+bus.subscribe('smartcashd/hashblock');
 
 // unsubscribe
-bus.unsubscribe('bitcoind/rawtransaction');
+bus.unsubscribe('smartcashd/rawtransaction');
 ```

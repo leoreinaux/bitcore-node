@@ -25,7 +25,7 @@ fi
 binary_url="${url}/${tag}/${tarball_name}"
 shasums_url="${url}/${tag}/SHA256SUMS.asc"
 
-download_bitcoind() {
+download_smartcashd() {
 
     cd "${root_dir}/bin"
 
@@ -51,7 +51,7 @@ download_bitcoind() {
             echo "Unpacking bitcoin distribution"
             tar -xvzf $tarball_name
             if test $? -eq 0; then
-                ln -sf "bitcoin-${version}/bin/bitcoind"
+                ln -sf "bitcoin-${version}/bin/smartcashd"
                 return;
             fi
         fi
@@ -109,7 +109,7 @@ while [ -n "$1" ]; do
 done
 
 if [ "${download}" = 1 ]; then
-    download_bitcoind
+    download_smartcashd
 fi
 
 if [ "${verify}" = 1 ]; then

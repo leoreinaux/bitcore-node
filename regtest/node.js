@@ -48,12 +48,12 @@ describe('Node Functionality', function() {
         network: 'regtest',
         services: [
           {
-            name: 'bitcoind',
+            name: 'smartcashd',
             module: BitcoinService,
             config: {
               spawn: {
                 datadir: datadir,
-                exec: path.resolve(__dirname, '../bin/bitcoind')
+                exec: path.resolve(__dirname, '../bin/smartcashd')
               }
             }
           }
@@ -84,13 +84,13 @@ describe('Node Functionality', function() {
         });
 
         var syncedHandler = function() {
-          if (node.services.bitcoind.height === 150) {
-            node.services.bitcoind.removeListener('synced', syncedHandler);
+          if (node.services.smartcashd.height === 150) {
+            node.services.smartcashd.removeListener('synced', syncedHandler);
             done();
           }
         };
 
-        node.services.bitcoind.on('synced', syncedHandler);
+        node.services.smartcashd.on('synced', syncedHandler);
 
         client.generate(150, function(err) {
           if (err) {
@@ -119,9 +119,9 @@ describe('Node Functionality', function() {
       var bus = node.openBus();
       var blockExpected;
       var blockReceived;
-      bus.subscribe('bitcoind/hashblock');
-      bus.on('bitcoind/hashblock', function(data) {
-        bus.unsubscribe('bitcoind/hashblock');
+      bus.subscribe('smartcashd/hashblock');
+      bus.on('smartcashd/hashblock', function(data) {
+        bus.unsubscribe('smartcashd/hashblock');
         if (blockExpected) {
           data.should.be.equal(blockExpected);
           done();
@@ -149,8 +149,8 @@ describe('Node Functionality', function() {
     before(function(done) {
       this.timeout(10000);
       address = testKey.toAddress(regtest).toString();
-      var startHeight = node.services.bitcoind.height;
-      node.services.bitcoind.on('tip', function(height) {
+      var startHeight = node.services.smartcashd.height;
+      node.services.smartcashd.on('tip', function(height) {
         if (height === startHeight + 3) {
           done();
         }
@@ -248,8 +248,8 @@ describe('Node Functionality', function() {
         /* jshint maxstatements: 50 */
 
         // Finished once all blocks have been mined
-        var startHeight = node.services.bitcoind.height;
-        node.services.bitcoind.on('tip', function(height) {
+        var startHeight = node.services.smartcashd.height;
+        node.services.smartcashd.on('tip', function(height) {
           if (height === startHeight + 5) {
             done();
           }
@@ -667,7 +667,7 @@ describe('Node Functionality', function() {
         tx.fee(1000);
         tx.sign(testKey);
 
-        node.services.bitcoind.sendTransaction(tx.serialize(), function(err, hash) {
+        node.services.smartcashd.sendTransaction(tx.serialize(), function(err, hash) {
           node.getAddressTxids(memAddress, {}, function(err, txids) {
             if (err) {
               return done(err);
